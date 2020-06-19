@@ -14,6 +14,7 @@
               {{jobDetail.Title}}
               <span>{{jobDetail.Subject}}</span>
               <span>{{jobDetail.Grade}}</span>
+              <span>{{jobDetail.Price}}</span>
             </div>
             <div class="jobsection">
               <span>{{jobDetail.Address}}</span>
@@ -29,7 +30,8 @@
           </div>
           <!-- <div class="submit">及时聊天</div> -->
           <!-- <router-link to="/takecourse"> -->
-          <div class="submit" id="sideMenuControl" @click="dialog = true">立即购买</div>
+          <!-- <div class="submit" id="sideMenuControl" @click="dialog = true">立即购买</div> -->
+          <div class="submit" id="sideMenuControl" @click="takecourse">立即购买</div>
           <!-- </router-link> -->
         </div>
       </div>
@@ -84,7 +86,7 @@
       </div>
       <!-- jobcontent end -->
     </div>
-    <el-drawer
+    <!-- <el-drawer
       title="请选择类型"
       :visible.sync="dialog"
       :modal="true"
@@ -119,189 +121,224 @@
           >{{ loading ? '提交中 ...' : '确 定' }}</el-button>
         </div>
       </div>
-    </el-drawer>
+    </el-drawer> -->
     <!-- el-drawer end -->
   </div>
 </template>
 
 <script>
-import $ from "jquery";
-import axios from "axios";
-import testApi from '@/api/api';
-import clients from "../Client/Clients.vue";
-
+import $ from 'jquery'
+import axios from 'axios'
+import testApi from '@/api/api'
+import clients from '../Client/Clients.vue'
+import { setCookie, getCookie } from '../../util/util.js'
 export default {
-  name: "JobDetail",
+  name: 'JobDetail',
   components: {
     clients
   },
-  data() {
+  data () {
     return {
       isSelected: false,
       isShow: true,
       flag: false,
       expectArr: [],
       jobDetail: {
-        Title: "",
-        Address: "",
-        Time: "",
-        Role: "",
-        Subject: "",
-        Gender: "",
-        Grade: "",
-        FreeTime: "",
-        ExpectTime: "",
-        Settlement: ""
+        Title: '',
+        Address: '',
+        Time: '',
+        Role: '',
+        Subject: '',
+        Gender: '',
+        Price: '',
+        Grade: '',
+        FreeTime: '',
+        ExpectTime: '',
+        Settlement: ''
       },
       dialog: false,
       loading: false,
       form: {
-        subject: "",
-        grade: "",
-        date1: "",
-        date2: "",
+        subject: '',
+        grade: '',
+        date1: '',
+        date2: '',
         delivery: false,
         type: [],
-        resource: "",
-        desc: "",
-        newId: ""
+        resource: '',
+        desc: '',
+        newId: ''
       },
-      formLabelWidth: "80px",
+      formLabelWidth: '80px',
       timer: null,
       map: {},
       introduces:
-        "Gordon developed his own stitching technique, which made the garments more durable, cost effective and less labor intensive. He employed machinists, moved the operation into a factory, set up a distribution network and sponsored a team of renowned Australian surfers. The business thrived."
-    };
+        'Gordon developed his own stitching technique, which made the garments more durable, cost effective and less labor intensive. He employed machinists, moved the operation into a factory, set up a distribution network and sponsored a team of renowned Australian surfers. The business thrived.'
+    }
   },
-  created() {},
-  mounted() {
-    this.map = this.$store.state.userData.job;
-    window.addEventListener("scroll", this.nav_toggle);
-    this.getDetail();
-    window.addEventListener("scroll", this.handeleScroll);
+  created () { },
+  mounted () {
+    this.map = this.$store.state.userData.job
+    window.addEventListener('scroll', this.nav_toggle)
+    this.getDetail()
+    window.addEventListener('scroll', this.handeleScroll)
     // console.log(this.introduce.length,"len")
   },
   methods: {
-    handeleScroll() {
+    handeleScroll () {
       var scroll =
         window.pageYOffset ||
         document.documentElement.scrollTop ||
-        document.body.scrollTop;
+        document.body.scrollTop
       // console.log(scroll)
       if (scroll >= 100) {
         //   this.flag = true;
-        $("#com").fadeIn("slow");
+        $('#com').fadeIn('slow')
         // this.$refs.scroll.classList.add("fadeInUp")
       }
     },
-    toggleCollect() {
-      this.isSelected = !this.isSelected;
+    toggleCollect () {
+      this.isSelected = !this.isSelected
     },
-    getDetail(this_ = this) {
-      this.newId = this.$route.query.id;
-      testApi.jobDetail(this.newId).then(res=>{
-        console.log(res)
-            if ((res.status = 200)) {
-            this.jobDetail.Title = res.data.Title;
-            this.jobDetail.Address = res.data.Address;
-            let ExpectTime = res.data.ExpectTime;
-            this.expectArr.push(ExpectTime);
-            // 将空闲时间数组存储在session中
-            sessionStorage.setItem(
-              "expectTime",
-              JSON.stringify(this.expectArr)
-            );
-            let Role = res.data.Role;
-            this.resove(Role);
-            this.jobDetail.Settlement = res.data.Settlement;
-            this.jobDetail.Subject = res.data.Subject;
-            let Gender = res.data.Gender;
-            this.resoveGender(Gender);
-            this.jobDetail.Grade = res.data.Grade;
-            this.jobDetail.FreeTime = res.data.FreeTime;
-            this.resolveTime(ExpectTime);
-          }
-      }).catch(err=>{
-        console.log(err);
+    getDetail (this_ = this) {
+      this.newId = this.$route.query.id
+      setCookie('demandId', this.newId, { path: '/' })
+      testApi.jobDetail(this.newId).then(res => {
+        // console.log(res)
+        if ((res.status = 200)) {
+          this.jobDetail.Title = res.data.Data.Title
+          this.jobDetail.Price = res.data.Data.Price // 存储
+          this.jobDetail.Address = res.data.Data.Address// 存储
+          let ExpectTime = this.Expect(res.data.Data.ExpectWeek, res.data.Data.ExpectStart, res.data.Data.ExpectLast)
+          this.expectArr.push(ExpectTime)
+          // this.ExpectArr = ["1,16,3"]
+          // console.log(this.expectArr)
+          // 将空闲时间数组存储在session中
+          sessionStorage.setItem(
+            'expectTime',
+            JSON.stringify(this.expectArr)
+          )
+          let Role = res.data.Data.Role
+          this.resove(Role)
+          this.jobDetail.Settlement = res.data.Data.Settlement
+          this.jobDetail.Subject = res.data.Data.Subject// 存储
+          let Gender = res.data.Data.Gender// 存储
+          this.resoveGender(Gender)
+          this.jobDetail.Grade = res.data.Data.Grade
+          this.jobDetail.FreeTime = this.objToarr(res.data.Data.FreeTime)
+          console.log(this.jobDetail.FreeTime, '999')
+          this.resolveTime(ExpectTime)
+          // 存储session
+          sessionStorage.setItem('Subject', res.data.Data.Subject)
+          sessionStorage.setItem('Grade', res.data.Data.Grade)
+          sessionStorage.setItem('Price', res.data.Data.Price)
+          sessionStorage.setItem('Settlement', res.data.Data.Settlement)
+        }
+      }).catch(err => {
+        console.log(err)
       })
     },
+    objToarr (obj) {
+      let arr = []
+      obj.forEach((item, index) => {
+        let res = []
+        res[0] = item.W, res[1] = item.S, res[2] = item.L
+        arr.push(res.join(','))
+      })
+      return arr
+    },
+    Expect (ExpectWeek, ExpectStart, ExpectLast) {
+      let arr = []
+      arr.push(ExpectWeek)
+      arr.push(ExpectStart)
+      arr.push(ExpectLast)
+      return arr.join(',')
+    },
     // 解析教员
-    resove(Role) {
-      let obj = { "1": "教员", "2": "学员" };
-      Role = Role.toString();
-      this.jobDetail.Role = obj[Role];
+    resove (Role) {
+      let obj = { '1': '教员', '2': '学员' }
+      Role = Role.toString()
+      this.jobDetail.Role = obj[Role]
     },
     // 解析性别
-    resoveGender(Gender) {
-      let obj = { "0": "", "1": "男", "2": "女" };
-      Gender = Gender.toString();
-      this.jobDetail.Gender = obj[Gender];
+    resoveGender (Gender) {
+      let obj = { '0': '', '1': '男', '2': '女' }
+      Gender = Gender.toString()
+      this.jobDetail.Gender = obj[Gender]
     },
-    //解析期望时间
-    resolveTime(str) {
-      var ExpectArr = str.split(",");
+    // 解析期望时间
+    resolveTime (str) {
+      var ExpectArr = str.split(',')
       // 解析星期
-      var WeekNum = ExpectArr[0];
+      var WeekNum = ExpectArr[0]
       var week = {
-        "1": "周一",
-        "2": "周二",
-        "3": "周三",
-        "4": "周四",
-        "5": "周五",
-        "6": "周六",
-        "7": "周日"
-      };
-      var WeekTime = week[WeekNum];
+        '1': '周一',
+        '2': '周二',
+        '3': '周三',
+        '4': '周四',
+        '5': '周五',
+        '6': '周六',
+        '7': '周日'
+      }
+      var WeekTime = week[WeekNum]
       // 解析时间
-      var ClockNum = ExpectArr[1];
-      var a = (ClockNum * 30) / 60;
-      var b = (ClockNum * 30) % 60;
+      var ClockNum = ExpectArr[1]
+      var a = Math.floor((ClockNum * 30) / 60)
+      var b = (ClockNum * 30) % 60
       // console.log("b1",b) //0
-      b = b == "0" ? b + "0" : b;
+      b = b == '0' ? b + '0' : b
       // console.log("b2",b) //0   这里??????
-      var ClockTime = a + ":" + b;
+      var ClockTime = a + ':' + b
       // console.log("ClockTime",ClockTime);
       // 解析持续时间
-      var EndNum = ExpectArr[2];
-      var aa = Math.floor((EndNum * 30) / 60);
-      var aEnd = Number(a) + Number(aa);
-      var bb = (EndNum * 30) % 60;
-      bb = bb == "0" ? bb + "0" : bb; //这里??????明明一样耶结果却不一样
-      var EndTime = aEnd + ":" + bb;
-      this.jobDetail.Time = WeekTime + " " + ClockTime + "~" + EndTime;
+      var EndNum = ExpectArr[2]
+      var aa = Math.floor((EndNum * 30) / 60)
+      var aEnd = Number(a) + Number(aa)
+      var bb = (EndNum * 30) % 60
+      bb = bb == '0' ? bb + '0' : bb // 这里??????明明一样耶结果却不一样
+      var EndTime = aEnd + ':' + bb
+      this.jobDetail.Time = WeekTime + ' ' + ClockTime + '~' + EndTime
     },
-    handleClose() {
-      if (this.loading) {
-        return;
-      }
-      this.$confirm("确定要提交表单吗？")
-        .then(_ => {
-          this.loading = true;
-          this.timer = setTimeout(() => {
-            // done();
-            // 动画关闭需要一定的时间
-            setTimeout(() => {
-              this.loading = false;
-              this.$router.push({ path: "/takecourse" });
-              // 将空闲时间数组存储在session中
-              sessionStorage.setItem(
-                "freeTime",
-                JSON.stringify(this.jobDetail.FreeTime)
-              );
-              // console.log(this.jobDetail.FreeTime)
-              // console.log(sessionStorage.getItem('freeTime'))
-              // this.routerTo();
-            }, 400);
-          }, 1000);
-        })
-        .catch(_ => {});
+    takecourse () {
+      this.$router.push({ path: '/takecourse' })
+      // 将空闲时间数组存储在session中
+      sessionStorage.setItem(
+        'freeTime',
+        JSON.stringify(this.jobDetail.FreeTime)
+      )
     },
-    cancelForm() {
-      this.loading = false;
-      this.dialog = false;
-      clearTimeout(this.timer);
-    },
-    routerTo() {
+    // handleClose() {
+    //   if (this.loading) {
+    //     return;
+    //   }
+    //   this.$confirm("确定要提交表单吗？")
+    //     .then(_ => {
+    //       this.loading = true;
+    //       this.timer = setTimeout(() => {
+    //         // done();
+    //         // 动画关闭需要一定的时间
+    //         setTimeout(() => {
+    //           this.loading = false;
+    //           this.$router.push({ path: "/takecourse" });
+    //           // 将空闲时间数组存储在session中
+    //           sessionStorage.setItem(
+    //             "freeTime",
+    //             JSON.stringify(this.jobDetail.FreeTime)
+    //           );
+    //           // console.log(this.jobDetail.FreeTime)
+    //           // console.log(sessionStorage.getItem('freeTime'))
+    //           // this.routerTo();
+    //         }, 400);
+    //       }, 1000);
+    //     })
+    //     .catch(_ => {});
+    // },
+    // cancelForm() {
+    //   this.loading = false;
+    //   this.dialog = false;
+    //   clearTimeout(this.timer);
+    // },
+    routerTo () {
       // this.$router.push({
       //     name: `TakeCourse`,
       //     params: {
@@ -309,14 +346,14 @@ export default {
       //     }
       // })
     },
-    btn_open() {
-      this.$refs.clients.connectServer();
-      $(".dialogue-support-btn").css({ display: "none" });
-      $(".dialogue-main").css({ display: "inline-block", height: "0" });
-      $(".dialogue-main").animate({ height: "600px" });
+    btn_open () {
+      this.$refs.clients.connectServer()
+      $('.dialogue-support-btn').css({ display: 'none' })
+      $('.dialogue-main').css({ display: 'inline-block', height: '0' })
+      $('.dialogue-main').animate({ height: '600px' })
     }
   }
-};
+}
 </script>
 <style>
 .el-collapse-item__arrow {

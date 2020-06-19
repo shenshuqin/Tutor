@@ -10,7 +10,25 @@ module.exports = {
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
-    proxyTable: {},
+    // proxyTable: {
+    //   '/dev-api':{
+    //     target:'https://dev-ao5dx3e.lonltech.com:646/',
+    //     changeOrigin:true,
+    //     pathRewrite:{
+    //         '^/dev-api':'',
+    //     }
+    //   }
+    // },
+      //设置服务器代理
+    proxyTable: {
+    //   "/api-dev": { // api相当于一个别名，代指 http://192.168.0.14:8081
+    //   "target":"www.baidu.com",
+    //   "changeOrigin":true,
+    //   "pathRewrite": {
+    //   "^/api-dev":""
+    //   }
+    // }
+  },
 
     // Various Dev Server settings
     host: 'localhost', // can be overwritten by process.env.HOST

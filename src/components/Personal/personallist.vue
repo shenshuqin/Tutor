@@ -4,10 +4,10 @@
             <ul class="menu">
                <router-link to="/usercenter"> <li class="selected"><a><span>个人中心</span><i class="el-icon-arrow-right"></i></a></li></router-link>
                <router-link to="/usercenter/publish"> <li><a><span>我的发布</span><i class="el-icon-arrow-right"></i></a></li></router-link>
-               <router-link to="/usercenter/account"> <li><a><span>账号管理</span><i class="el-icon-arrow-right"></i></a></li></router-link>
+               <router-link to="/usercenter/accountSetting"> <li><a><span>账号设置</span><i class="el-icon-arrow-right"></i></a></li></router-link>
                <router-link to="/usercenter/wallet">  <li><a><span>我的钱包</span><i class="el-icon-arrow-right"></i></a></li></router-link>
                <router-link to="/usercenter/attention"> <li><a><span>我的关注</span><i class="el-icon-arrow-right"></i></a></li></router-link>
-               <router-link to="/usercenter/record"><li><a><span>我的记录</span><i class="el-icon-arrow-right"></i></a></li></router-link>
+               <router-link to="/usercenter/business"><li><a><span>我的业务</span><i class="el-icon-arrow-right"></i></a></li></router-link>
                <router-link to="/usercenter/collect"><li><a><span>我的收藏</span><i class="el-icon-arrow-right"></i></a></li></router-link>
                <router-link to="/usercenter/evaluate"> <li><a><span>我的评论</span><i class="el-icon-arrow-right"></i></a></li></router-link>
                <router-link to="/usercenter/privacy"> <li><a><span>我的隐私</span><i class="el-icon-arrow-right"></i></a></li></router-link>

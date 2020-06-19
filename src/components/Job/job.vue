@@ -7,17 +7,8 @@
             <!-- <form action="" method="get"> -->
             <div class="search-form-con">
               <p class="ipt-wrap">
-                <input
-                  type="text"
-                  class="ipt-search"
-                  maxlength="50"
-                  autocomplete="off"
-                  placeholder="搜索科目"
-                  ref="search"
-                  @keyup.enter="submit()"
-                  @focus="focusfns"
-                  @blur="blurfns"
-                />
+                <input type="text" class="ipt-search" maxlength="50" autocomplete="off" placeholder="搜索科目" ref="search"
+                  @keyup.enter="submit()" @focus="focusfns" @blur="blurfns" />
               </p>
             </div>
             <div class="btn-search" ka="search_box_index" @click="search();submit()">
@@ -50,14 +41,9 @@
                 <label>角色</label>
               </div>
               <div class="search-group-right">
-                <span
-                  name="Role"
-                  :class="isactive == index ? 'active' : '' "
-                  @click="selected_termR($event);onclick(index)"
-                  v-for="(item ,index) in term.Role"
-                  :key="index"
-                  :id="item.Id"
-                >{{item.Name}}</span>
+                <span name="Role" :class="isactive == index ? 'active' : '' "
+                  @click="selected_termR($event);onclick(index)" v-for="(item ,index) in term.Role" :key="index"
+                  :id="item.Id">{{item.Name}}</span>
               </div>
             </div>
             <div class="search-group clearfix">
@@ -65,13 +51,8 @@
                 <label>科目</label>
               </div>
               <div class="search-group-right">
-                <span
-                  name="Subject"
-                  @click="selected_term($event)"
-                  v-for="(item ,index) in term.Subject"
-                  :key="index"
-                  :id="item.Id"
-                >{{item.Name}}</span>
+                <span name="Subject" @click="selected_term($event)" v-for="(item ,index) in term.Subject" :key="index"
+                  :id="item.Id">{{item.Name}}</span>
               </div>
             </div>
             <div class="search-group clearfix">
@@ -79,13 +60,8 @@
                 <label>年级</label>
               </div>
               <div class="search-group-right">
-                <span
-                  name="Grade"
-                  @click="selected_term($event)"
-                  v-for="(item ,index) in term.Grade"
-                  :key="index"
-                  :id="item.Id"
-                >{{item.Name}}</span>
+                <span name="Grade" @click="selected_term($event)" v-for="(item ,index) in term.Grade" :key="index"
+                  :id="item.Id">{{item.Name}}</span>
               </div>
             </div>
             <div class="search-group clearfix">
@@ -93,13 +69,8 @@
                 <label>授课时间</label>
               </div>
               <div class="search-group-right">
-                <span
-                  name="Time"
-                  @click="selected_term($event)"
-                  v-for="(item ,index) in term.Time"
-                  :key="index"
-                  :id="item.Id"
-                >{{item.Name}}</span>
+                <span name="Time" @click="selected_term($event)" v-for="(item ,index) in term.Time" :key="index"
+                  :id="item.Id">{{item.Name}}</span>
               </div>
             </div>
             <div class="search-group clearfix">
@@ -108,28 +79,16 @@
               </div>
               <div class="search-group-right">
                 <el-select v-model="value1" placeholder="综合排序" @change="sort">
-                  <el-option
-                    v-for="item in options.optionsSum"
-                    :key="item.id"
-                    :label="item.name"
-                    :value="item.id"
-                  ></el-option>
+                  <el-option v-for="item in options.optionsSum" :key="item.id" :label="item.name" :value="item.id">
+                  </el-option>
                 </el-select>
                 <el-select v-model="value2" placeholder="口碑" @change="sort1">
-                  <el-option
-                    v-for="item in options.optionsEffect"
-                    :key="item.id"
-                    :label="item.name"
-                    :value="item.id"
-                  ></el-option>
+                  <el-option v-for="item in options.optionsEffect" :key="item.id" :label="item.name" :value="item.id">
+                  </el-option>
                 </el-select>
                 <el-select v-model="value3" placeholder="热度" @change="sort2">
-                  <el-option
-                    v-for="item in options.optionsHeart"
-                    :key="item.id"
-                    :label="item.name"
-                    :value="item.id"
-                  ></el-option>
+                  <el-option v-for="item in options.optionsHeart" :key="item.id" :label="item.name" :value="item.id">
+                  </el-option>
                 </el-select>
               </div>
             </div>
@@ -201,17 +160,17 @@
 </template>
 
 <script>
-import $ from "jquery";
-import axios from "axios";
-import testApi from '@/api/api';
-import searchHistory from "../Common/search_history.vue";
-import { setCookie, getCookie } from "../../util/util.js";
+import $ from 'jquery'
+import axios from 'axios'
+import testApi from '@/api/api'
+import searchHistory from '../Common/search_history.vue'
+import { setCookie, getCookie } from '../../util/util.js'
 export default {
-  name: "Job",
+  name: 'Job',
   components: {
     searchHistory
   },
-  data() {
+  data () {
     return {
       searchArr: [],
       pages: null,
@@ -228,68 +187,68 @@ export default {
         praise: {},
         hot: {}
       },
-      selected: ["教员"],
+      selected: ['教员'],
       term: {},
       options: {
         optionsSum: [
           {
-            id: "all",
-            name: "综合",
-            label: "optionsSum"
+            id: 'all',
+            name: '综合',
+            label: 'optionsSum'
           },
           {
-            id: "credit",
-            name: "信用",
-            label: "optionsSum"
+            id: 'credit',
+            name: '信用',
+            label: 'optionsSum'
           }
         ],
         optionsEffect: [
           {
-            id: "publicIn",
-            name: "口碑升序",
-            label: " optionsEffect"
+            id: 'publicIn',
+            name: '口碑升序',
+            label: ' optionsEffect'
           },
           {
-            id: "publicDe",
-            name: "口碑降序",
-            label: " optionsEffect"
+            id: 'publicDe',
+            name: '口碑降序',
+            label: ' optionsEffect'
           }
         ],
         optionsHeart: [
           {
-            id: "heartIn",
-            name: "热度升序",
-            label: "optionsHeart"
+            id: 'heartIn',
+            name: '热度升序',
+            label: 'optionsHeart'
           },
           {
-            id: "heartDe",
-            name: "热度降序",
-            label: "optionsHeart"
+            id: 'heartDe',
+            name: '热度降序',
+            label: 'optionsHeart'
           }
         ]
       },
       job: [],
-      value1: "",
-      value2: "",
-      value3: "",
-      name: "",
-      id: "",
+      value1: '',
+      value2: '',
+      value3: '',
+      name: '',
+      id: '',
       obj: {},
-      element: "",
+      element: '',
       header: {
-        "Content-Type": "application/json;charset=UTF-8",
-        Authorization: "Bearer " + getCookie("AccessToken")
+        'Content-Type': 'application/json;charset=UTF-8',
+        Authorization: 'Bearer ' + getCookie('AccessToken')
       },
-      RefreshToken7: "",
+      RefreshToken7: '',
       roleArr: [],
       isactive: 0
-    };
+    }
   },
-  created() {
-        this.searchcondition()
+  created () {
+    this.searchcondition()
   },
-  mounted() {
-     this.searchcondition()
+  mounted () {
+    this.searchcondition()
     // var AccessToken = getCookie("AccessToken");
     // this.RefreshToken7 = getCookie("RefreshToken7");
     // var RefreshToken30 = getCookie("RefreshToken30");
@@ -300,34 +259,34 @@ export default {
     // if (!(this.RefreshToken7 && RefreshToken30)) {
     //   this.$router.push({ path: "/login" });
     // }
-    this.searchAjax();
+    this.searchAjax()
     // this.requestToken()
   },
   methods: {
-    onclick(index) {
-      //将点击的元素的索引赋值给bian变量
-      this.isactive = index;
+    onclick (index) {
+      // 将点击的元素的索引赋值给bian变量
+      this.isactive = index
     },
-    focusfns() {
-      this.flag = true;
+    focusfns () {
+      this.flag = true
     },
-    blurfns() {
+    blurfns () {
       //   this.flag=false;
     },
-    submit() {
-      var item = this.$refs.search.value;
-      if (localStorage.getItem("searchHistory")) {
-        this.searchArr = localStorage.getItem("searchHistory").split(",");
+    submit () {
+      var item = this.$refs.search.value
+      if (localStorage.getItem('searchHistory')) {
+        this.searchArr = localStorage.getItem('searchHistory').split(',')
       } else {
-        this.searchArr = [];
+        this.searchArr = []
       }
       if (item) {
-        this.searchArr.push(item);
-        localStorage.setItem("searchHistory", this.searchArr); //存入 参数： 1.调用的值 2.所要存入的数据
+        this.searchArr.push(item)
+        localStorage.setItem('searchHistory', this.searchArr) // 存入 参数： 1.调用的值 2.所要存入的数据
       }
-      this.$refs.mychild.historyShow();
-      this.$refs.mychild.msg = "历史记录";
-      this.$refs.mychild.clear = true;
+      this.$refs.mychild.historyShow()
+      this.$refs.mychild.msg = '历史记录'
+      this.$refs.mychild.clear = true
     },
     // requestToken() {
     //   axios({
@@ -353,143 +312,143 @@ export default {
     //       console.log(err);
     //     });
     // },
-    sort(val) {
-      this.change(val, this.options.optionsSum);
+    sort (val) {
+      this.change(val, this.options.optionsSum)
     },
-    sort1(val) {
-      this.change(val, this.options.optionsEffect);
+    sort1 (val) {
+      this.change(val, this.options.optionsEffect)
     },
-    sort2(val) {
-      this.change(val, this.options.optionsHeart);
+    sort2 (val) {
+      this.change(val, this.options.optionsHeart)
     },
-    searchcondition() {
-       testApi.getList().then(res=>{
+    searchcondition () {
+      testApi.getList().then(res => {
         //  console.log(res,"list")
-        if(res.status === 200){
-          this.term = res.data;
+        if (res.status === 200) {
+          this.term = res.data.Data
         }
-      }).catch(err=>{
-        console.log(err);
+      }).catch(err => {
+        console.log(err)
       })
     },
-    change(val, sortObj) {
-      //传进来的val是select组件选中的value值，也就是一个fruitEnName
-      let obj = {};
-      obj = sortObj.find(function(item) {
-        return item.id === val;
-      });
+    change (val, sortObj) {
+      // 传进来的val是select组件选中的value值，也就是一个fruitEnName
+      let obj = {}
+      obj = sortObj.find(function (item) {
+        return item.id === val
+      })
       // console.log(obj)
-      //obj 就是被选中的那个对象，也就能拿到label值了。
+      // obj 就是被选中的那个对象，也就能拿到label值了。
       //  console.log(obj.label);
       //  console.log(val)//value值
       //  console.log(obj.name);
-      var eName = obj.label;
-      var eContent = obj.name;
-      var eId = obj.id;
+      var eName = obj.label
+      var eContent = obj.name
+      var eId = obj.id
       if (!this.conditions.hasOwnProperty(eName)) {
-        this.conditions[eName] = "";
+        this.conditions[eName] = ''
       }
       // this.conditions[eName].shift(); //删除数组第一个元素
       // this.conditions[eName].push(eId);
-      this.conditions[eName] = eId;
+      this.conditions[eName] = eId
       // this.conditions[eName] = [...new Set(this.conditions[eName])];
       // console.log("2",this.conditions);
       // this.search();
-      this.searchAjax();
+      this.searchAjax()
     },
-    search() {
-      this.name = this.$refs.search.value;
+    search () {
+      this.name = this.$refs.search.value
       // console.log("name",this.name);
-      this.conditions["Title"] = this.name;
+      this.conditions['Title'] = this.name
       // console.log(this.conditions);
-      this.searchAjax();
+      this.searchAjax()
     },
-    selected_termR(event) {
-      var e = event.target;
-      var eId = $(e).attr("Id");
-      var eName = $(e).attr("Name");
-      var eContent = $(e)[0].innerHTML;
-      this.selected.push(eContent);
-      var index = this.selected.indexOf(eContent); //-1
-      this.selected.splice(0, 1, eContent);
-      this.selected = [...new Set(this.selected)];
-      if (eName === "Role") {
-        this.conditions[eName] = Number(eId);
+    selected_termR (event) {
+      var e = event.target
+      var eId = $(e).attr('Id')
+      var eName = $(e).attr('Name')
+      var eContent = $(e)[0].innerHTML
+      this.selected.push(eContent)
+      var index = this.selected.indexOf(eContent) // -1
+      this.selected.splice(0, 1, eContent)
+      this.selected = [...new Set(this.selected)]
+      if (eName === 'Role') {
+        this.conditions[eName] = Number(eId)
       }
-      console.log(this.conditions); //Role
-      this.searchAjax();
+      console.log(this.conditions) // Role
+      this.searchAjax()
     },
-    selected_term(event) {
-      var e = event.target;
-      var eId = $(e).attr("Id");
-      var eName = $(e).attr("Name");
+    selected_term (event) {
+      var e = event.target
+      var eId = $(e).attr('Id')
+      var eName = $(e).attr('Name')
       // $(e).css("color",function(){return "red";});
-      var eContent = $(e)[0].innerHTML;
-      this.selected.push(eContent);
-      if ($(e).hasClass("active")) {
-        $(e).removeClass("active");
-      } else if (!$(e).hasClass("active")) {
-        $(e).addClass("active");
+      var eContent = $(e)[0].innerHTML
+      this.selected.push(eContent)
+      if ($(e).hasClass('active')) {
+        $(e).removeClass('active')
+      } else if (!$(e).hasClass('active')) {
+        $(e).addClass('active')
       }
-      this.selected = [...new Set(this.selected)];
+      this.selected = [...new Set(this.selected)]
       if (!this.conditions.hasOwnProperty(eName)) {
-        this.conditions[eName] = "";
+        this.conditions[eName] = ''
       }
-      if (this.conditions[eName] == "") {
-        this.conditions[eName] += eId;
+      if (this.conditions[eName] == '') {
+        this.conditions[eName] += eId
       } else {
-        this.conditions[eName] += "|" + eId;
+        this.conditions[eName] += '|' + eId
       }
-      var arr = this.conditions[eName].split("|");
+      var arr = this.conditions[eName].split('|')
       for (var j = 0; j < arr.length; j++) {
         if (arr[j] == arr[j + 1]) {
-          arr.splice(j, 2);
+          arr.splice(j, 2)
         }
       }
-      arr = [...new Set(arr)];
+      arr = [...new Set(arr)]
       //  console.log(arr);
-      this.conditions[eName] = arr.join("|");
+      this.conditions[eName] = arr.join('|')
       // console.log(this.conditions); //subject
-      this.searchAjax();
+      this.searchAjax()
     },
-    searchAjax() {
-      testApi.getJob(this.conditions).then(res=>{
+    searchAjax () {
+      testApi.getJob(this.conditions).then(res => {
         // console.log(res,"con");
-        if(res.status === 200){
-          this.job = res.data.Content;
-          this.pages = res.data.Pages * 10;
+        if (res.status === 200) {
+          this.job = res.data.Data.Content
+          this.pages = res.data.Data.Pages * 10
         }
-      }).catch(err=>{
-        console.log(err);
+      }).catch(err => {
+        console.log(err)
       })
     },
-    handleClose(item) {
+    handleClose (item) {
       for (var key in this.term) {
-        var arr = this.term[key];
+        var arr = this.term[key]
         for (var i = 0; i < arr.length; i++) {
           if (arr[i].Name == item) {
-            var value = arr[i].Id;
-            var valKey = key;
-            if (valKey === "Role") {
-              this.conditions[key] = this.conditions[key] + "";
+            var value = arr[i].Id
+            var valKey = key
+            if (valKey === 'Role') {
+              this.conditions[key] = this.conditions[key] + ''
             }
-            var conArr = this.conditions[key].split("|");
-            var index = conArr.indexOf(value);
-            conArr.splice(index, 1);
-            var str = conArr.join("|");
-            this.conditions[key] = str;
-            if (valKey === "Role") {
-              this.conditions[key] = Number(this.conditions[key]);
+            var conArr = this.conditions[key].split('|')
+            var index = conArr.indexOf(value)
+            conArr.splice(index, 1)
+            var str = conArr.join('|')
+            this.conditions[key] = str
+            if (valKey === 'Role') {
+              this.conditions[key] = Number(this.conditions[key])
             }
           }
         }
       }
-      this.selected.splice(this.selected.indexOf(item), 1);
+      this.selected.splice(this.selected.indexOf(item), 1)
       // console.log(this.conditions)
-      this.searchAjax();
+      this.searchAjax()
     }
   }
-};
+}
 </script>
 <style>
 .active {

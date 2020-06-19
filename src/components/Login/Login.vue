@@ -1,55 +1,77 @@
 <template>
   <div class="bg">
-    <span class="glyphicon glyphicon-search" style="color:red;font-size:40px;" aria-hidden="true"></span>
     <div class="alert alert-danger" role="alert" v-show="warn">{{msg_warn}}</div>
+    <div class="login-title">
+      <p class="login-logo"><img src="../../assets/images/c_logo.png"></p>
+      <h2>见证成长 兼职家教平台</h2>
+      <div class="phone">
+        <img src="../../assets/images/phone.png">
+        <p class="phone-text">手机APP下载</p>
+        <div class="phone-code">
+          <div class=code>
+            <img src="../../assets/images/wx.jpg">
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="login-frame normal-height">
       <div class="login-ow-wrap">
         <div class="head-text">
           <div @click="pass()" class="head-title" :class="[isActive?'actvie':' ']">密码登录</div>
-          <div @click="yzm()" class="head-title" :class="[isActive?' ':'actvie']">验证码登录</div></div>
+          <div @click="yzm()" class="head-title" :class="[isActive?' ':'actvie']">验证码登录</div>
+        </div>
         <div class="login-from">
           <form class="el-form">
             <div class="el-form-item" v-show="accout">
-              <!---->
               <div class="el-form-item__content">
                 <div class="el-input el-input--prefix">
-                  <!---->
-                  <input type="text" autocomplete="off" v-model.trim="username" name="username" placeholder="用户名" class="el-input__inner" @focus="focus_user()" @blur="blur_user()" />
+                  <input type="text" autocomplete="off" v-model.trim="username" name="username" placeholder="用户名"
+                    class="el-input__inner" @focus="focus_user()" @blur="blur_user()" />
                   <span class="el-input__prefix">
-                    <img src="https://qiniu-image.qtshe.com/pc_new_login_user.png" class="el-input__icon el-icon-customize" /></span>
+                    <img src="https://qiniu-image.qtshe.com/pc_new_login_user.png"
+                      class="el-input__icon el-icon-customize" /></span>
                 </div>
-                <div v-if="msg_user" class="el-form-item__error">{{msg1}}</div></div>
+                <div v-if="msg_user" class="el-form-item__error">{{msg1}}</div>
+              </div>
             </div>
             <div class="el-form-item" v-show="phone">
               <div class="el-form-item__content">
                 <div class="el-input el-input--prefix">
-                  <input type="text" autocomplete="off" v-model.trim="usermobile" name="username" placeholder="手机号" class="el-input__inner" @focus="focus_user()" />
+                  <input type="text" autocomplete="off" v-model.trim="usermobile" name="username" placeholder="手机号"
+                    class="el-input__inner" @focus="focus_user()" />
                   <span class="el-input__prefix">
                     <i class="el-icon-phone" style="padding-left:2px;font-size:18px"></i>
                   </span>
                 </div>
-                <div v-if="msg_user" class="el-form-item__error">{{msg1}}</div></div>
+                <div v-if="msg_user" class="el-form-item__error">{{msg1}}</div>
+              </div>
             </div>
             <div class="el-form-item" id="pas" v-if="pas">
               <div class="el-form-item__content">
                 <div class="el-input el-input--prefix">
-                  <input type="password" autocomplete="off" v-model.trim="password" name="password" placeholder="密码" class="el-input__inner" @focus="focus_pass()" />
+                  <input type="password" autocomplete="off" v-model.trim="password" name="password" placeholder="密码"
+                    class="el-input__inner" @focus="focus_pass()" />
                   <span class="el-input__prefix">
-                    <img src="https://qiniu-image.qtshe.com/pc_new_login_lock.png" class="el-input__icon el-icon-customize" /></span>
+                    <img src="https://qiniu-image.qtshe.com/pc_new_login_lock.png"
+                      class="el-input__icon el-icon-customize" /></span>
                 </div>
-                <div v-if="msg_pass" class="el-form-item__error">{{msg2}}</div></div>
+                <div v-if="msg_pass" class="el-form-item__error">{{msg2}}</div>
+              </div>
             </div>
             <div class="items" v-show="remb">
               <el-checkbox v-model="checked">7天免密登录</el-checkbox>
               <router-link class to="/retrieve">
-                <div class="forget-pass" id="forget">忘记密码?</div></router-link>
+                <div class="forget-pass" id="forget">忘记密码?</div>
+              </router-link>
             </div>
             <div class="el-form-item" id="yzms" v-if="yzms">
               <div class="el-form-item__content">
                 <div class="el-input el-input--prefix">
-                  <input type="text" autocomplete="off" placeholder="验证码" maxlength="6" class="el-input__inner" v-model.trim="code" @focus="focus_code()" />
+                  <input type="text" autocomplete="off" placeholder="验证码" maxlength="6" class="el-input__inner"
+                    v-model.trim="code" @focus="focus_code()" />
                   <span class="el-input__prefix">
-                    <img src="https://qiniu-image.qtshe.com/pc_new_login_lock.png" class="el-input__icon el-icon-customize" /></span>
+                    <img src="https://qiniu-image.qtshe.com/pc_new_login_lock.png"
+                      class="el-input__icon el-icon-customize" /></span>
                 </div>
                 <div v-if="msg_code" class="el-form-item__error">{{msg3}}</div>
                 <div class="count-down">
@@ -70,11 +92,11 @@
           </form>
           <div class="foot">
             <a>
-              <img src="//img.58cdn.com.cn/git/teg-app-fe/passport-pc/img/qq@2x.png">QQ</a>
+              <img :src="imgQQ">QQ</a>
             <a>
-              <img src="//img.58cdn.com.cn/git/teg-app-fe/passport-pc/img/weixin@2x.png">微信</a>
+              <img :src="imgWeixin">微信</a>
             <a>
-              <img src="../../assets/images/zfb.png">支付宝</a></div>
+              <img :src="imgZf">支付宝</a></div>
         </div>
         <div class="cut-off">
           <div class="line"></div>
@@ -91,17 +113,17 @@
   </div>
 </template>
 <script>
-import axios from "axios";
-let Base64 = require("js-base64").Base64;
-import { setCookie, getCookie } from "../../util/util.js";
+import axios from 'axios'
+import { setCookie, getCookie } from '../../util/util.js'
+let Base64 = require('js-base64').Base64
 export default {
-  name: "Login",
-  data() {
+  name: 'Login',
+  data () {
     return {
       type: 1,
       user: true,
       warn: false,
-      msg_warn: "",
+      msg_warn: '',
       yzms: false,
       msg_user: false,
       msg_code: false,
@@ -110,299 +132,317 @@ export default {
       pas: true,
       phone: false,
       accout: true,
-      username: "",
-      usermobile:'',
-      password: "",
-      code: "",
+      username: '',
+      usermobile: '',
+      password: '',
+      code: '',
       isActive: true,
       show: true,
-      count: "",
-      msg1: "",
-      msg2: "",
-      msg3: "",
+      count: '',
+      msg1: '',
+      msg2: '',
+      msg3: '',
       timer: null,
       checked: true,
       remb: true,
-      header: { 
-        "Content-Type": "application/json;charset=UTF-8",
-        "Authorization": "Bearer " + "111"
-       }
-    };
-  },
-  created() {
-    // 在页面加载时从cookie获取登录信息
-    let username = getCookie("username");
-    let password = Base64.decode(getCookie("password"));
-    let checked = getCookie("checked");
-    // 如果存在赋值给表单，并且将记住密码勾选
-    if (username) {
-      this.username = username;
-      this.password = password;
-      // console.log("密码",password);
-      // console.log("用户名",this.username);
-      this.checked = true;
+      imgQQ: require('../../assets/images/qq.png'),
+      imgWeixin: require('../../assets/images/lweixin.png'),
+      imgZf: require('../../assets/images/zfb.png')
     }
   },
-  mounted() {},
+  created () {
+    // 在页面加载时从cookie获取登录信息
+    let username = getCookie('username')
+    let password = Base64.decode(getCookie('password'))
+    let checked = getCookie('checked')
+    // 如果存在赋值给表单，并且将记住密码勾选
+    if (username) {
+      this.username = username
+      this.password = password
+      // console.log("密码",password);
+      // console.log("用户名",this.username);
+      this.checked = true
+    }
+  },
+  mounted () { },
   methods: {
     // 验证码倒时
-    getCode() {
-        let this_ = this;
-        if (this.usermobile == "") {
-            this.msg_user = true;
-            this.msg1 = "手机号不能为空";
-            return false;
-        }
-        var str = this.usermobile;
-        var flag = !/^1\d{10}$/.test(str);
-        if (flag) {
-            this.msg_user = true;
-            this.msg1 = "请填写正确手机号";
-            return false;
-        }
-     const TIME_COUNT = 60;
-     if (!this.timer) {
-       this.count = TIME_COUNT;
-       this.show = false;
-       this.timer = setInterval(() => {
-       if (this.count > 0 && this.count <= TIME_COUNT) {
-         this.count--;
-        } else {
-         this.show = true;
-         clearInterval(this.timer);
-         this.timer = null;
-        }
-       }, 1000)
+    getCode () {
+      let this_ = this
+      if (this.usermobile == '') {
+        this.msg_user = true
+        this.msg1 = '手机号不能为空'
+        return false
+      }
+      var str = this.usermobile
+      var flag = !/^1\d{10}$/.test(str)
+      if (flag) {
+        this.msg_user = true
+        this.msg1 = '请填写正确手机号'
+        return false
+      }
+      const TIME_COUNT = 60
+      if (!this.timer) {
+        this.count = TIME_COUNT
+        this.show = false
+        this.timer = setInterval(() => {
+          if (this.count > 0 && this.count <= TIME_COUNT) {
+            this.count--
+          } else {
+            this.show = true
+            clearInterval(this.timer)
+            this.timer = null
+          }
+        }, 1000)
         // 获取短信验证码
-        this_.getsms();
-        }
+        this_.getsms()
+      }
     },
-    //获取短信验证码
-    getsms() {
-      let this_ = this;
+    // 获取短信验证码
+    getsms () {
+      let this_ = this
       var data = {
         smstype: 0,
-        phone: this_.usermobile,
-        clienttype:1,
-      };
+        phone: this_.usermobile
+        // clienttype:1,
+      }
       axios({
-        url :"https://dev-ao5dx3e.lonltech.com:646/api/auth/getsms",
-        method: "post",
-        dataType: "json",
-        //发送格式为json
+        url: 'https://dev-ao5dx3e.lonltech.com:646/api/auth/getsms',
+        method: 'post',
+        dataType: 'json',
+        // 发送格式为json
         data: data,
         headers: this_.header
       }).then(res => {
-          console.log(res);
-          if (res.data.Succ === 1) {
+        console.log(res)
+        if (res.data.Code === 1) {
 
-          } else {
-            console.log("失败");
-          }
-        }).catch(err => {
-          console.log(err);
-        });
+        } else {
+          console.log('失败')
+        }
+      }).catch(err => {
+        console.log(err)
+      })
     },
-    blur_user() {
-      var str = this.username;
-      var flag = !/[@#\$%\^&\*]+/g.test(str);
-      if (!flag) {
-        this.msg_user = true;
-        this.msg1 = "不能为非法用户";
-      }
-    },
-    focus_user() {
-      this.msg_user = false;
-    },
-    focus_code() {
-      this.msg_code = false;
-    },
-    focus_pass() {
-      this.msg_pass = false;
-    },
-    login_mobile() {
-      let this_ = this;
-      let str = this.usermobile;
-      let flag = !/^1\d{10}$/.test(str);
-      if (this.usermobile == "" && this.code == "") {
-        this_.msg_user = true;
-        this_.msg1 = "手机号不能为空";
-        this_.msg_code = true;
-        this_.msg3 = "验证码不能为空";
-        return false;
-      } else if (this.usermobile == "") {
-        this_.msg_user = true;
-        this_.msg1 = "手机号不能为空";
-        return false;
-      } else if(flag){
-        this_.msg_user = true;
-        this_.msg1 = "请填写正确手机号";
-        return false;
-      }else if (this.code == "") {
-        this_.msg_code = true;
-        this_.msg3 = "验证码不能为空";
-        return false;
+    // 手机号登录
+    login_mobile () {
+      let this_ = this
+      let str = this.usermobile
+      let flag = !/^1\d{10}$/.test(str)
+      if (this.usermobile == '' && this.code == '') {
+        this_.msg_user = true
+        this_.msg1 = '手机号不能为空'
+        this_.msg_code = true
+        this_.msg3 = '验证码不能为空'
+        return false
+      } else if (this.usermobile == '') {
+        this_.msg_user = true
+        this_.msg1 = '手机号不能为空'
+        return false
+      } else if (flag) {
+        this_.msg_user = true
+        this_.msg1 = '请填写正确手机号'
+        return false
+      } else if (this.code == '') {
+        this_.msg_code = true
+        this_.msg3 = '验证码不能为空'
+        return false
       }
       var data = {
         logintype: this_.type,
         username: this_.usermobile,
         password: this_.code,
-        clienttype:1,
-      };
+        clienttype: 1
+      }
       axios({
-        // url: "http://192.168.199.10:8000/api/auth/login",
-        url:'https://dev-ao5dx3e.lonltech.com:646/api/auth/login',
-        method: "post",
-        dataType: "json",
-        //发送格式为json
+        url: 'https://dev-ao5dx3e.lonltech.com:646/api/auth/login',
+        method: 'post',
+        dataType: 'json',
+        // 发送格式为json
         data: data,
         headers: this_.header
       }).then(res => {
-          console.log(res);
-          if (res.data.Succ === 1) {
-            var token = res.data.Token;
-            setCookie("token", token);
-            // console.log(getCookie(token));
-            // _this.$router.push({path:'/home'})
+        if (res.data.Code === 1) {
+          let ExpireTime = res.data.Data.ExpireTime
+          console.log(res)
+          let millisecond = new Date().getTime()// 将当前时间转换为时间戳
+          var expiresTime = new Date(millisecond + ExpireTime * 1000) // 1800*1000==30*60*1000
+          var AccessToken = res.data.Data.AccessToken
+          var RefreshToken = res.data.Data.RefreshToken
+          var Uuid = res.data.Data.Uuid
+          setCookie('uUid', Uuid, { path: '/' })
+          setCookie('username', this.username, { path: '/' })
+          setCookie('time', millisecond, { path: '/' })
+          setCookie('AccessToken', AccessToken, expiresTime, { path: '/' }) // cookie过期时间必须是UTC格式
+          setCookie('RefreshToken7', RefreshToken, 'd7', { path: '/' })
+          setCookie('RefreshToken30', RefreshToken, 'd30', { path: '/' })
+          if (this.$route.query.redirect == location.hostname) {
+            this.$router.go(-1)
           } else {
-            this_.warn = true;
-            this_.msg_warn = "失败";
+            this.$router.push({ path: '/' })
           }
-        }).catch(err => {
-          console.log(err);
-        });
+          this.setUserInfo()
+        } else {
+          this_.warn = true
+          this_.msg_warn = '登录失败'
+        }
+      }).catch(err => {
+        console.log(err)
+      })
     },
-    login_user() {
-      var this_ = this;
-      var md5Pswd = this.$md5(this_.password).toLowerCase();
+    // 用户名登录
+    login_user () {
+      var this_ = this
+      var md5Pswd = this.$md5(this_.password).toLowerCase()
       var data = {
         logintype: this_.type,
         username: this_.username,
         password: md5Pswd,
-        clienttype:1,
-      };
-      if (this.username == "" && this.password == "") {
-        this_.msg_user = true;
-        this_.msg1 = "用户名不能为空";
-        this_.msg_pass = true;
-        this_.msg2 = "密码不能为空";
-        return false;
-      } else if (this.username == "") {
-        this_.msg_user = true;
-        this_.msg1 = "用户名不能为空";
-        return false;
-      } else if (this.password == "") {
-        this_.msg_pass = true;
-        this_.msg2 = "密码不能为空";
-        return false;
+        clienttype: 1
+      }
+      if (this.username == '' && this.password == '') {
+        this_.msg_user = true
+        this_.msg1 = '用户名不能为空'
+        this_.msg_pass = true
+        this_.msg2 = '密码不能为空'
+        return false
+      } else if (this.username == '') {
+        this_.msg_user = true
+        this_.msg1 = '用户名不能为空'
+        return false
+      } else if (this.password == '') {
+        this_.msg_pass = true
+        this_.msg2 = '密码不能为空'
+        return false
       }
       axios({
-        url :"https://dev-ao5dx3e.lonltech.com:646/api/auth/login",
-        method: "post",
-        dataType: "json",
-        //发送格式为json
+        url: 'https://dev-ao5dx3e.lonltech.com:646/api/auth/login',
+        method: 'post',
+        dataType: 'json',
+        // 发送格式为json
         data: data,
         headers: this_.header
       }).then(res => {
-        // console.log(res);
-          if (res.data.Succ === 1) {
-            let ExpireTime = res.data.ExpireTime;
-            let millisecond =new Date().getTime();//将当前时间转换为时间戳
-            var expiresTime = new Date(millisecond +  ExpireTime*1000); //1800*1000
-            // console.log(millisecond);
-            var AccessToken = res.data.AccessToken;
-            var RefreshToken = res.data.RefreshToken;
-            setCookie("username",this.username);
-            setCookie("time",millisecond);
-            setCookie("AccessToken", AccessToken,expiresTime);
-            setCookie("RefreshToken7", RefreshToken,'d7');
-            setCookie("RefreshToken30", RefreshToken,'d30');
-            // console.log(this.$route.query.redirect)
-            if(this.$route.query.redirect == location.hostname){
-              this.$router.go(-1);
-            }else{
-              this.$router.push({path:'/'});
-            }
-            this.setUserInfo();
+        console.log(res, '登录')
+        if (res.data.Code === 1) {
+          let ExpireTime = res.data.Data.ExpireTime
+          console.log(res)
+          let millisecond = new Date().getTime()// 将当前时间转换为时间戳
+          var expiresTime = new Date(millisecond + ExpireTime * 1000) // 1800*1000==30*60*1000
+          var AccessToken = res.data.Data.AccessToken
+          var RefreshToken = res.data.Data.RefreshToken
+          var Uuid = res.data.Data.Uuid
+          setCookie('uUid', Uuid, { path: '/' })
+          setCookie('username', this.username, { path: '/' })
+          setCookie('time', millisecond, { path: '/' })
+          setCookie('AccessToken', AccessToken, expiresTime, { path: '/' }) // cookie过期时间必须是UTC格式
+          setCookie('RefreshToken7', RefreshToken, 'd7', { path: '/' })
+          setCookie('RefreshToken30', RefreshToken, 'd30', { path: '/' })
+          // console.log(this.$route.query.redirect)
+          if (this.$route.query.redirect == location.hostname) {
+            this.$router.go(-1)
           } else {
-            console.log("失败");
-            this_.warn = true;
-            this_.msg_warn = "失败";
+            this.$router.push({ path: '/' })
           }
-        }).catch(err => {
-          console.log(err);
-        });
+          this.setUserInfo()
+        } else {
+          console.log('失败')
+          this_.warn = true
+          this_.msg_warn = '失败'
+        }
+      }).catch(err => {
+        console.log(err)
+      })
     },
     // 储存表单信息
-    setUserInfo: function() {
+    setUserInfo: function () {
       // 判断用户是否勾选记住密码，如果勾选，向cookie中储存登录信息，
       // 如果没有勾选，储存的信息为空
       if (this.checked) {
-        setCookie("username", this.username, "d7");
+        setCookie('username', this.username, 'd7', { path: '/' })
         // base64加密密码
-        let password = Base64.encode(this.password);
-        setCookie("password", password, "d7");
+        let password = Base64.encode(this.password)
+        setCookie('password', password, 'd7', { path: '/' })
         // setCookie("checked",checked,7)
       } else {
-        setCookie("username", "");
-        setCookie("password", "");
+        setCookie('username', '', { path: '/' })
+        setCookie('password', '', { path: '/' })
       }
     },
-    pass() {
-      this.msg_user = false;
-      this.msg_code = false;
-      this.user = true;
-      this.mobile = false;
-      this.type = 1;
-      this.yzms = false;
-      this.pas = true;
-      this.remb = true;
-      this.isActive = !this.isActive;
-      this.phone = false;
-      this.accout = true;
-      //  this.isActive = true;
+    // 验证
+    blur_user () {
+      var str = this.username
+      var flag = !/[@#\$%\^&\*]+/g.test(str)
+      if (!flag) {
+        this.msg_user = true
+        this.msg1 = '不能为非法用户'
+      }
     },
-    yzm() {
-      this.msg_user = false;
-      this.msg_pass = false;
-      this.user = false;
-      this.mobile = true;
-      this.type = 2;
-      this.yzms = true;
-      this.accout = false;
-      this.remb = false;
-      this.pas = false;
-      this.phone = true;
-      this.isActive = !this.isActive;
+    focus_user () {
+      this.msg_user = false
+    },
+    focus_code () {
+      this.msg_code = false
+    },
+    focus_pass () {
+      this.msg_pass = false
+    },
+    // 切换
+    pass () {
+      this.msg_user = false
+      this.msg_code = false
+      this.user = true
+      this.mobile = false
+      this.type = 1
+      this.yzms = false
+      this.pas = true
+      this.remb = true
+      this.isActive = !this.isActive
+      this.phone = false
+      this.accout = true
+    },
+    // 切换
+    yzm () {
+      this.msg_user = false
+      this.msg_pass = false
+      this.user = false
+      this.mobile = true
+      this.type = 2
+      this.yzms = true
+      this.accout = false
+      this.remb = false
+      this.pas = false
+      this.phone = true
+      this.isActive = !this.isActive
     }
   }
-};
+}
 </script>
 
 <style  scoped>
-.foot{
-  width:100%;
-  position:relative;
-  height:35px;
+.foot {
+  width: 100%;
+  position: relative;
+  height: 35px;
   margin-bottom: -18px;
   /* border:1px solid red; */
 }
 .foot a {
-    text-align: left;
-    float: left;
-    width: 33%;
-    *width: auto;
-    font-size: 12px;
-    line-height: 32px;
-    color: #999;
-    text-decoration: none;
+  text-align: left;
+  float: left;
+  width: 33%;
+  *width: auto;
+  font-size: 12px;
+  line-height: 32px;
+  color: #999;
+  text-decoration: none;
 }
 .foot a img {
-    width: 32px;
-    height: 32px;
-    float: left;
-    margin: 0 12px 0 0;
-    border: 0;
+  width: 32px;
+  height: 32px;
+  float: left;
+  margin: 0 12px 0 0;
+  border: 0;
 }
 .el-form-item__error {
   color: #e6322d;
@@ -415,9 +455,52 @@ export default {
 }
 .bg {
   width: 100%;
-  height: 800px;
-  /* background-color:#CCE8CF; */
+  height: 635px;
+  background: url("../../assets/images/login.jpg") no-repeat;
+  background-position: center center;
+  background-size: cover;
   position: relative;
+}
+.bg .login-title {
+  position: absolute;
+  top: 120px;
+  left: 160px;
+}
+.bg .login-title .login-logo {
+  width: 250px;
+  height: 100px;
+}
+.login-logo img {
+  width: 100%;
+}
+.bg .login-title h2 {
+  font-size: 25px;
+  font-family: HYRunYuan-FEW;
+  color: #fff;
+  letter-spacing: 8px;
+}
+.bg .phone {
+  margin-top: 40px;
+  color: #fff;
+  width: 120px;
+  height: 90px;
+  float: left;
+  text-align: center;
+}
+.bg .phone img:nth-child(1) {
+  width: 60px;
+}
+.bg .phone .phone-text {
+  margin-top: 10px;
+}
+.bg .phone-code {
+  display: none;
+}
+.bg .code img:nth-child(1) {
+  width: 100px;
+}
+.bg .phone:hover .phone-code {
+  display: block;
 }
 .login-frame .normal-height {
   /* height: 358px; */

@@ -1,8 +1,8 @@
 <template>
   <div id="app">
-   <commonTopbar ref="header"></commonTopbar>
-    <router-view/>
-    <commonFooter></commonFooter>
+    <commonTopbar ref="header" v-if="$route.meta.keepAlive"></commonTopbar>
+    <router-view />
+    <commonFooter v-if="$route.meta.keepAlive"></commonFooter>
   </div>
 </template>
 
@@ -15,16 +15,20 @@ export default {
     commonTopbar,
     commonFooter
   },
+  data () {
+    return {
+    }
+  }
 }
 </script>
 
 <style>
-    body{
-        background:#F6F6F8;
-        font-size: 14px;
-    }
-     .min-width{
-      width:1200px;
-      margin:0 auto;
-  }
+body {
+  background: #f6f6f8;
+  font-size: 14px;
+}
+.min-width {
+  width: 1200px;
+  margin: 0 auto;
+}
 </style>

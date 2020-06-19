@@ -27,7 +27,7 @@
       </div>
     </div> -->
     <!-- nav_search end -->
-    <div class="bgimg"> <img  alt="" :src='img' class="imgbg"></div>
+    <div class="bgimg"> <img alt="" :src='img' class="imgbg"></div>
     <!-- <div class="search">
       <div class="min_width">
         <div class="search-box">
@@ -91,11 +91,7 @@
                   <span>选择年级</span>
                 </div>
                 <div class="subview_content">
-                  <div
-                    class="content_item"
-                    v-for="(school, index) in subject.grade_msg"
-                    :key="index"
-                  >
+                  <div class="content_item" v-for="(school, index) in subject.grade_msg" :key="index">
                     <!-- 遍历学校 -->
                     <p>
                       <span class="title">{{school.type + index}}</span>
@@ -144,340 +140,340 @@
     <!--open-client end  -->
   </div>
 </template>
- <script>
-import $ from "jquery";
-import swiper from "./swiper.vue";
-import bubble from "./bubble.vue";
-import clients from "../Client/Clients.vue";
-import searchHistory from "../Common/search_history.vue";
-import axios from "axios";
-import { setCookie, getCookie } from "../../util/util.js";
+<script>
+import $ from 'jquery'
+import swiper from './swiper.vue'
+import bubble from './bubble.vue'
+import clients from '../Client/Clients.vue'
+import searchHistory from '../Common/search_history.vue'
+import axios from 'axios'
+import { setCookie, getCookie } from '../../util/util.js'
 export default {
-  name: "Home",
+  name: 'Home',
   components: {
     swiper,
     bubble,
     clients,
     searchHistory
   },
-  data() {
+  data () {
     return {
       searchArr: [],
-      img:require('../../assets/images/bgimg.jpg'),
+      img: require('../../assets/images/bgimg.jpg'),
       flag: false,
       data: {
         subjects: [
           {
-            sub_name: "语文",
+            sub_name: '语文',
             grade_msg: [
               {
-                type: "小学",
+                type: '小学',
                 grades: [
-                  "一年级",
-                  "二年级",
-                  "三年级",
-                  "四年级",
-                  "五年级",
-                  "六年级"
+                  '一年级',
+                  '二年级',
+                  '三年级',
+                  '四年级',
+                  '五年级',
+                  '六年级'
                 ]
               },
               {
-                type: "初中",
-                grades: ["一年级", "二年级", "三年级"]
+                type: '初中',
+                grades: ['一年级', '二年级', '三年级']
               },
               {
-                type: "高中",
-                grades: ["一年级", "二年级", "三年级"]
+                type: '高中',
+                grades: ['一年级', '二年级', '三年级']
               }
             ]
           },
           {
-            sub_name: "数学",
+            sub_name: '数学',
             grade_msg: [
               {
-                type: "小学",
+                type: '小学',
                 grades: [
-                  "一年级",
-                  "二年级",
-                  "三年级",
-                  "四年级",
-                  "五年级",
-                  "六年级"
+                  '一年级',
+                  '二年级',
+                  '三年级',
+                  '四年级',
+                  '五年级',
+                  '六年级'
                 ]
               },
               {
-                type: "初中",
-                grades: ["一年级", "二年级", "三年级"]
+                type: '初中',
+                grades: ['一年级', '二年级', '三年级']
               },
               {
-                type: "高中",
-                grades: ["一年级", "二年级", "三年级"]
+                type: '高中',
+                grades: ['一年级', '二年级', '三年级']
               },
               {
-                type: "大学",
-                grades: ["一年级", "二年级"]
+                type: '大学',
+                grades: ['一年级', '二年级']
               }
             ]
           },
           {
-            sub_name: "英语",
+            sub_name: '英语',
             grade_msg: [
               {
-                type: "小学",
+                type: '小学',
                 grades: [
-                  "一年级",
-                  "二年级",
-                  "三年级",
-                  "四年级",
-                  "五年级",
-                  "六年级"
+                  '一年级',
+                  '二年级',
+                  '三年级',
+                  '四年级',
+                  '五年级',
+                  '六年级'
                 ]
               },
               {
-                type: "初中",
-                grades: ["一年级", "二年级", "三年级"]
+                type: '初中',
+                grades: ['一年级', '二年级', '三年级']
               },
               {
-                type: "高中",
-                grades: ["一年级", "二年级", "三年级"]
+                type: '高中',
+                grades: ['一年级', '二年级', '三年级']
               },
               {
-                type: "大学",
-                grades: ["一年级", "二年级"]
+                type: '大学',
+                grades: ['一年级', '二年级']
               }
             ]
           },
           {
-            sub_name: "政治",
+            sub_name: '政治',
             grade_msg: [
               {
-                type: "初中",
-                grades: ["一年级", "二年级", "三年级"]
+                type: '初中',
+                grades: ['一年级', '二年级', '三年级']
               },
               {
-                type: "高中",
-                grades: ["一年级", "二年级", "三年级"]
+                type: '高中',
+                grades: ['一年级', '二年级', '三年级']
               }
             ]
           },
           {
-            sub_name: "历史",
+            sub_name: '历史',
             grade_msg: [
               {
-                type: "小学",
+                type: '小学',
                 grades: [
-                  "一年级",
-                  "二年级",
-                  "三年级",
-                  "四年级",
-                  "五年级",
-                  "六年级"
+                  '一年级',
+                  '二年级',
+                  '三年级',
+                  '四年级',
+                  '五年级',
+                  '六年级'
                 ]
               },
               {
-                type: "初中",
-                grades: ["一年级", "二年级", "三年级"]
+                type: '初中',
+                grades: ['一年级', '二年级', '三年级']
               },
               {
-                type: "高中",
-                grades: ["一年级", "二年级", "三年级"]
+                type: '高中',
+                grades: ['一年级', '二年级', '三年级']
               },
               {
-                type: "大学",
-                grades: ["一年级", "二年级", "三年级", "四年级"]
+                type: '大学',
+                grades: ['一年级', '二年级', '三年级', '四年级']
               }
             ]
           },
           {
-            sub_name: "地理",
+            sub_name: '地理',
             grade_msg: [
               {
-                type: "小学",
+                type: '小学',
                 grades: [
-                  "一年级",
-                  "二年级",
-                  "三年级",
-                  "四年级",
-                  "五年级",
-                  "六年级"
+                  '一年级',
+                  '二年级',
+                  '三年级',
+                  '四年级',
+                  '五年级',
+                  '六年级'
                 ]
               },
               {
-                type: "初中",
-                grades: ["一年级", "二年级", "三年级"]
+                type: '初中',
+                grades: ['一年级', '二年级', '三年级']
               },
               {
-                type: "高中",
-                grades: ["一年级", "二年级", "三年级"]
+                type: '高中',
+                grades: ['一年级', '二年级', '三年级']
               },
               {
-                type: "大学",
-                grades: ["一年级", "二年级", "三年级", "四年级"]
+                type: '大学',
+                grades: ['一年级', '二年级', '三年级', '四年级']
               }
             ]
           },
           {
-            sub_name: "物理",
+            sub_name: '物理',
             grade_msg: [
               {
-                type: "小学",
+                type: '小学',
                 grades: [
-                  "一年级",
-                  "二年级",
-                  "三年级",
-                  "四年级",
-                  "五年级",
-                  "六年级"
+                  '一年级',
+                  '二年级',
+                  '三年级',
+                  '四年级',
+                  '五年级',
+                  '六年级'
                 ]
               },
               {
-                type: "初中",
-                grades: ["一年级", "二年级", "三年级"]
+                type: '初中',
+                grades: ['一年级', '二年级', '三年级']
               },
               {
-                type: "高中",
-                grades: ["一年级", "二年级", "三年级"]
+                type: '高中',
+                grades: ['一年级', '二年级', '三年级']
               },
               {
-                type: "大学",
-                grades: ["一年级", "二年级", "三年级", "四年级"]
+                type: '大学',
+                grades: ['一年级', '二年级', '三年级', '四年级']
               }
             ]
           },
           {
-            sub_name: "化学",
+            sub_name: '化学',
             grade_msg: [
               {
-                type: "小学",
+                type: '小学',
                 grades: [
-                  "一年级",
-                  "二年级",
-                  "三年级",
-                  "四年级",
-                  "五年级",
-                  "六年级"
+                  '一年级',
+                  '二年级',
+                  '三年级',
+                  '四年级',
+                  '五年级',
+                  '六年级'
                 ]
               },
               {
-                type: "初中",
-                grades: ["一年级", "二年级", "三年级"]
+                type: '初中',
+                grades: ['一年级', '二年级', '三年级']
               },
               {
-                type: "高中",
-                grades: ["一年级", "二年级", "三年级"]
+                type: '高中',
+                grades: ['一年级', '二年级', '三年级']
               },
               {
-                type: "大学",
-                grades: ["一年级", "二年级", "三年级", "四年级"]
+                type: '大学',
+                grades: ['一年级', '二年级', '三年级', '四年级']
               }
             ]
           },
           {
-            sub_name: "生物",
+            sub_name: '生物',
             grade_msg: [
               {
-                type: "小学",
+                type: '小学',
                 grades: [
-                  "一年级",
-                  "二年级",
-                  "三年级",
-                  "四年级",
-                  "五年级",
-                  "六年级"
+                  '一年级',
+                  '二年级',
+                  '三年级',
+                  '四年级',
+                  '五年级',
+                  '六年级'
                 ]
               },
               {
-                type: "初中",
-                grades: ["一年级", "二年级", "三年级"]
+                type: '初中',
+                grades: ['一年级', '二年级', '三年级']
               },
               {
-                type: "高中",
-                grades: ["一年级", "二年级", "三年级"]
+                type: '高中',
+                grades: ['一年级', '二年级', '三年级']
               },
               {
-                type: "大学",
-                grades: ["一年级", "二年级", "三年级", "四年级"]
+                type: '大学',
+                grades: ['一年级', '二年级', '三年级', '四年级']
               }
             ]
           }
         ]
       }
-    };
+    }
   },
 
-  mounted() {
-    this.selsect_course();
-    window.addEventListener("scroll", this.nav_toggle);
+  mounted () {
+    this.selsect_course()
+    window.addEventListener('scroll', this.nav_toggle)
     //  this.nav_toggle();
   },
   methods: {
-    focusfns() {
-      this.flag = true;
+    focusfns () {
+      this.flag = true
     },
-    blurfns() {
-      this.flag = false;
+    blurfns () {
+      this.flag = false
     },
-    submit() {
-      var item = this.$refs.getValue.value;
-      if (localStorage.getItem("searchHistory")) {
-        this.searchArr = localStorage.getItem("searchHistory").split(",");
+    submit () {
+      var item = this.$refs.getValue.value
+      if (localStorage.getItem('searchHistory')) {
+        this.searchArr = localStorage.getItem('searchHistory').split(',')
       } else {
-        this.searchArr = [];
+        this.searchArr = []
       }
       if (item) {
-        this.searchArr.push(item);
-        localStorage.setItem("searchHistory", this.searchArr); //存入 参数： 1.调用的值 2.所要存入的数据
+        this.searchArr.push(item)
+        localStorage.setItem('searchHistory', this.searchArr) // 存入 参数： 1.调用的值 2.所要存入的数据
       }
 
       //  console.log(localStorage.getItem("searchHistory"));
-      this.$refs.mychild.historyShow();
-      this.$refs.mychild.msg = "历史记录";
-      this.$refs.mychild.clear = true;
+      this.$refs.mychild.historyShow()
+      this.$refs.mychild.msg = '历史记录'
+      this.$refs.mychild.clear = true
       // this.$router.push('/job')
     },
     // 课程分类的显示与隐藏
-    selsect_course() {
-      $(".popup").css("display", "none");
-      $(".cate").on("mouseenter", "li", function(event) {
+    selsect_course () {
+      $('.popup').css('display', 'none')
+      $('.cate').on('mouseenter', 'li', function (event) {
         $(this)
-          .addClass("select")
+          .addClass('select')
           .siblings()
-          .removeClass("select");
-        $(".popup")
+          .removeClass('select')
+        $('.popup')
           .hide()
           .eq($(this).index())
-          .show();
-      });
-      $(".fs").mouseleave(function() {
-        $(".popup").css("display", "none");
-        $(".cate li").removeClass("select");
-      });
+          .show()
+      })
+      $('.fs').mouseleave(function () {
+        $('.popup').css('display', 'none')
+        $('.cate li').removeClass('select')
+      })
     },
     // 导航显示和隐藏
-    nav_toggle() {
+    nav_toggle () {
       // var scrollY = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
-      var winHeight = $(document).scrollTop();
-      var scrollY = $(window).scrollTop();
+      var winHeight = $(document).scrollTop()
+      var scrollY = $(window).scrollTop()
       // console.log($(window).scrollTop());
       if (scrollY > 200) {
-        //如果滚动距离大于0px则隐藏，否则删除隐藏类
-        $("#navT").css("display", "block");
+        // 如果滚动距离大于0px则隐藏，否则删除隐藏类
+        $('#navT').css('display', 'block')
         // $(".commonTopbar").css("z-index", -999999);
       } else {
-        $("#navT").css("display", "none");
+        $('#navT').css('display', 'none')
         // $(".commonTopbar").css("display", 999999);
       }
     },
-    btn_open() {
-      this.$refs.clients.connectServer();
+    btn_open () {
+      this.$refs.clients.connectServer()
       // this.connection = new signalR.HubConnectionBuilder().withUrl("http://192.168.199.10:8001/chatHub").build();
-      $(".dialogue-support-btn").css({ display: "none" });
-      $(".dialogue-main").css({ display: "inline-block", height: "0" });
-      $(".dialogue-main").animate({ height: "600px" });
+      $('.dialogue-support-btn').css({ display: 'none' })
+      $('.dialogue-main').css({ display: 'inline-block', height: '0' })
+      $('.dialogue-main').animate({ height: '600px' })
       // console.log(this.connection)
     }
   }
-};
+}
 </script>
     <style scoped>
 .client {
@@ -902,42 +898,42 @@ body {
   writing-mode: vertical-rl;
   -webkit-user-select: none;
 }
-.bgimg{
-  width:100%;
-  height:120px;
+.bgimg {
+  width: 100%;
+  height: 120px;
   /* border:1px solid red; */
 }
-.imgbg{
-  width:100%;
-  height:100%;
+.imgbg {
+  width: 100%;
+  height: 100%;
 }
 /* 輪播 */
-.slide:nth-of-type(1){
-    background:url('../../assets/images/jj.jpg');
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-size: cover;
-    /* border:1px solid red; */
+.slide:nth-of-type(1) {
+  background: url("../../assets/images/jj.jpg");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  /* border:1px solid red; */
 }
-.slide:nth-of-type(2){
-    background:url('../../assets/images/jz.jpg');
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-size: cover;
-    /* border:1px solid red; */
+.slide:nth-of-type(2) {
+  background: url("../../assets/images/jz.jpg");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  /* border:1px solid red; */
 }
-.slide:nth-of-type(3){
-    background:url('../../assets/images/jj.jpg');
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-size: cover;
-    /* border:1px solid red; */
+.slide:nth-of-type(3) {
+  background: url("../../assets/images/jj.jpg");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  /* border:1px solid red; */
 }
-.slide:nth-of-type(4){
-    background:url('../../assets/images/slide11.jpg');
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-size: cover;
-    /* border:1px solid red; */
+.slide:nth-of-type(4) {
+  background: url("../../assets/images/slide11.jpg");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  /* border:1px solid red; */
 }
 </style>

@@ -1,15 +1,10 @@
 <template>
   <div>
-    <el-dialog title="提示"
-               :visible.sync="centerDialogVisible"
-               width="16%"
-               center>
+    <el-dialog title="提示" :visible.sync="centerDialogVisible" width="16%" center>
       <span style="text-aligin:center"><i class="el-icon-warning icons"></i>确认添加为空间时间</span>
-      <span slot="footer"
-            class="dialog-footer">
+      <span slot="footer" class="dialog-footer">
         <el-button @click="centerDialogVisible = false">取 消</el-button>
-        <el-button type="primary"
-                   @click="centerDialogVisible = false;addevent($event, click_elem)">确 定</el-button>
+        <el-button type="primary" @click="centerDialogVisible = false;addevent($event, click_elem)">确 定</el-button>
       </span>
     </el-dialog>
     <!--el-dialog end  -->
@@ -24,62 +19,44 @@
       </div>
       <div class="jia">
         <!-- <button @click="submit()">提交</button> -->
-        <router-link to='/orderinfo'
-                     v-if="isStudent">
-          <el-button icon="el-icon-warning-outline">提交申请</el-button>
+        <router-link to='/orderinfo' v-if="isStudent">
+          <el-button icon="el-icon-warning-outline" @click="submit()">提交申请</el-button>
         </router-link>
-        <router-link to=''
-                     v-else>
+        <router-link to='' v-else>
           <el-button icon="el-icon-warning-outline">申请请假</el-button>
         </router-link>
       </div>
     </div>
     <table style="table-layout: fixed">
       <thead>
-        <tr align="center"
-            id="table-box">
+        <tr align="center" id="table-box">
           <th style="width:40px">时间</th>
-          <th colspan="2"
-              v-for="(item, index) in week"
-              :key="index">
-            <el-tooltip :content="item"
-                        placement="top">
+          <th colspan="2" v-for="(item, index) in week" :key="index">
+            <el-tooltip :content="item" placement="top">
               <div class="time-line">{{item}}</div>
             </el-tooltip>
           </th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(item, indexs) in calender" 
-            :key="indexs">
+        <tr v-for="(item, indexs) in calender" :key="indexs">
           <td>{{item.time}}</td>
-          <td class="td-box"
-              v-for="(content, index) in item.event"
-              :key="index">
+          <td class="td-box" v-for="(content, index) in item.event" :key="index">
             <div :id="`row${indexs}col${index}` " class="date_box">
               <!-- {{:class="item.expectTime[index]==true?'demand':' '"}} -->
               <!-- 教员点击事件delSelected有效,学员无效 -->
-              <div class='eventlist' 
-                   v-if="content" 
-                   @click="isStudent||delSelected($event, item, index)">
+              <div class='eventlist' v-if="content" @click="isStudent||delSelected($event, item, index)">
                 <!-- 学员显示checkbox,教员不显示 -->
-                <div class="check-box" 
-                     v-if="isStudent">
+                <div class="check-box" v-if="isStudent">
                   <label class="checkBoxStyle">
-                    <input class="inputstyle"
-                           type="checkbox"
-                           name="checkList"
-                           value=" "
-                           v-model="item.stuChecked[index]" />
+                    <input class="inputstyle" type="checkbox" name="checkList" value=" "
+                      v-model="item.stuChecked[index]" @change="getTime" />
                     <span class="spanStyle inputStyleDemo"></span>
                   </label>
                 </div>
               </div>
               <!-- eventlist end -->
-              <div class="addevent"
-                   v-show="!isStudent"
-                   v-on:click="newEvent($event, item, index)"
-                   v-else>
+              <div class="addevent" v-show="!isStudent" v-on:click="newEvent($event, item, index)" v-else>
                 <i class="el-icon-edit"></i>
                 new
               </div>
@@ -94,54 +71,55 @@
 
 <script>
 export default {
-  props: ['status',"free","expect"],
+  props: ['status', 'free', 'expect'],
   data () {
     return {
-      id:0,
-      demandTime:false,
+      id: 0,
+      demandTime: false,
+      // calender:[],
       week: ['8:00', '9:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00', '23:00'],
       calender: [
         {
-         time: '周一',
-         event: [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false] ,
-         stuChecked:[false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-         expectTime:[false, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-        },
-        { 
-          time: '周二', 
+          time: '周一',
           event: [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-          stuChecked:[false, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-          expectTime:[false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+          stuChecked: [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+          expectTime: [false, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false]
         },
-        { 
+        {
+          time: '周二',
+          event: [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+          stuChecked: [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+          expectTime: [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false]
+        },
+        {
           time: '周三',
-          event:[false, false, false, false, false,true, false, false, false, false, false, false , false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-          stuChecked:[false, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-          expectTime:[false, false, false, false, false,true, false, false, false, false, false, false , false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+          event: [false, false, false, false, false, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+          stuChecked: [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+          expectTime: [false, false, false, false, false, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false]
         },
-        { 
+        {
           time: '周四',
           event: [false, false, false, false, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-          stuChecked:[false, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-          expectTime:[false, false, false, false,true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+          stuChecked: [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+          expectTime: [false, false, false, false, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false]
         },
-        { 
+        {
           time: '周五',
           event: [false, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-          stuChecked:[false, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-          expectTime:[false, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+          stuChecked: [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+          expectTime: [false, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false]
         },
-        { 
+        {
           time: '周六',
           event: [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-          stuChecked:[false, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-          expectTime:[false, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+          stuChecked: [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+          expectTime: [false, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false]
         },
-        { 
-          time: '周日', 
+        {
+          time: '周日',
           event: [false, false, false, false, false, false, false, false, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-          stuChecked:[false, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-          expectTime:[false, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+          stuChecked: [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+          expectTime: [false, true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false]
         }
       ],
       isStudent: this.status,
@@ -165,50 +143,51 @@ export default {
     }
   },
   // 使用Watch来监听父组件传递过来的free,不然刷新会undefined
-    watch: {
-      free: function(newValue) {
-          this.calender.forEach((item,index)=>{
-          for(let i=0;i<newValue.length;i++){
-            this.calender[index].event = newValue[index];
-          }
-        })
-      },
-       expect: function(newValue) {
-          this.calender.forEach((item,index)=>{
-          for(let i=0;i<newValue.length;i++){
-            this.calender[index].expectTime = newValue[index];
-          }
-        })
-          this.isStudent && setTimeout(this.demand, 100);
-      },
-     },
+  watch: {
+    free: function (newValue) {
+      this.calender.forEach((item, index) => {
+        for (let i = 0; i < newValue.length; i++) {
+          this.calender[index].event = newValue[index]
+        }
+      })
+    },
+    expect: function (newValue) {
+      this.calender.forEach((item, index) => {
+        for (let i = 0; i < newValue.length; i++) {
+          this.calender[index].expectTime = newValue[index]
+        }
+      })
+      this.isStudent && setTimeout(this.demand, 100)
+    }
+  },
   mounted () {
-    this.toggle();
-
+    this.toggle()
+    // console.log(this.calender,"选中")
   },
   methods: {
-    demand(){
-      let demandArr = [],freeArr=[];
-      let arr = [];
-      let box = document.getElementsByClassName("date_box");
+    getTime () {
+      console.log(this.calender, '选中')
+    },
+    demand () {
+      let demandArr = [], freeArr = []
+      let arr = []
+      let box = document.getElementsByClassName('date_box')
       this.calender.forEach(v => {
-        freeArr.push(v.event);
-        demandArr.push(v.expectTime);
-      });
+        freeArr.push(v.event)
+        demandArr.push(v.expectTime)
+      })
       // console.log(demandArr)
-      demandArr.forEach((item,index)=>{
-        for(let i=0;i<item.length;i++){
-          if(item[i] == true){
-            let id="row"+index+"col"+i
+      demandArr.forEach((item, index) => {
+        for (let i = 0; i < item.length; i++) {
+          if (item[i] == true) {
+            let id = 'row' + index + 'col' + i
             var obj = document.getElementById(id)
-            let child = obj.children[0];
-            if(child.getAttribute('class') == 'eventlist'){
+            let child = obj.children[0]
+            if (child.getAttribute('class') == 'eventlist') {
               child.style.backgroundColor = '#FF5722'
-            }else{
-             obj.style.backgroundColor = '#FF5722';//背景色置为高亮
+            } else {
+              obj.style.backgroundColor = '#FF5722'// 背景色置为高亮
             }
-
-            
           }
         }
       })
@@ -217,33 +196,35 @@ export default {
       let arr = []
       let time_li = []
       this.calender.forEach(v => {
-        arr.push(v.event)
+        arr.push(v.stuChecked)
       })
       // console.log(arr);
       arr.forEach((item, index_day) => {
-          let expect_li = [];
-          let prev = false;//表示前一个的值
-          let cur_index = -1;//表示expect_li数组中最后一个元素的索引
-          item.forEach((item, index) => {
-              if (!prev && item) {//false-> true 
-                  expect_li.push([index_day + 1, index + 16, 1]);//记录日期,开始时间,持续时间为1
-                  cur_index++;//索引+1
-              }
-              if (prev && item) {//true -> true
-                  expect_li[cur_index][2]++;//持续时间+1
-              }
-              prev = item;//记录当前的值
-              // console.log("prev=", prev, "expect_li = ", expect_li);
-          })
-
-          //将每个期望时间数组转换成字符串形式
-          if (expect_li.length !== 0) {
-              expect_li.forEach(item => {
-                  time_li.push(item.toString());
-              })
+        let expect_li = []
+        let prev = false// 表示前一个的值
+        let cur_index = -1// 表示expect_li数组中最后一个元素的索引
+        item.forEach((item, index) => {
+          if (!prev && item) { // false-> true
+            expect_li.push([index_day + 1, index + 16, 1])// 记录日期,开始时间,持续时间为1
+            cur_index++// 索引+1
           }
+          if (prev && item) { // true -> true
+            expect_li[cur_index][2]++// 持续时间+1
+          }
+          prev = item// 记录当前的值
+          // console.log("prev=", prev, "expect_li = ", expect_li);
+        })
+
+        // 将每个期望时间数组转换成字符串形式
+        if (expect_li.length !== 0) {
+          expect_li.forEach(item => {
+            time_li.push(item.toString())
+          })
+        }
       })
-      console.log(time_li)
+      // console.log(time_li)
+      sessionStorage.setItem('bussinessTime', JSON.stringify(time_li))
+      //  console.log(JSON.parse(sessionStorage.getItem('bussinessTime')),"000000")
     },
     // 通过字段分组
     groupArr (arr) {
@@ -376,7 +357,7 @@ export default {
   width: 22px;
   height: 12px;
   border-radius: 8px;
-  background: #FF5722;
+  background: #ff5722;
   vertical-align: middle;
   display: inline-block;
 }
@@ -525,7 +506,7 @@ td :hover .addevent {
 .inputstyle:checked + .inputStyleDemo:after {
   content: "";
   position: absolute;
-  border-color: #01AAED;
+  border-color: #01aaed;
   border-style: solid;
   border-width: 0 2px 2px 0;
   width: 8px;

@@ -1,16 +1,15 @@
 import request from '@/utils/request';
-import {getCookie } from "@/util/util.js";
 const url = 'https://dev-ao5dx3e.lonltech.com:646/api/';
-const headers={
-    "Content-Type": "application/json;charset=UTF-8",
-    Authorization: "Bearer " + getCookie("AccessToken")
-};
+// headers={
+
+// };
 export default {
     getList(){
         const req = request({
             url:url+'demand/searchcondition',
             method:'get',
             dataType: "json",
+            // contentType: 'application/json',
             // headers:headers,
         });
         return req;
@@ -52,4 +51,53 @@ export default {
         });
         return req;
     },
+    //用户发起立即购买请求以获取订单
+    payOrder(data){
+        const req = request({
+            url:url+'payment/order',
+            method:'post',
+            data:data,
+            dataType: "json",
+            contentType: 'application/json',
+        });
+        return req;
+    },
+    pay(data){
+        const req = request({
+            url:url+'payment/pay',
+            method:'post',
+            data:data,
+            dataType: "json",
+            contentType: 'application/json',
+        });
+        return req;
+    },
+    verifyApply(data){
+        const req = request({
+            url:url+`payment/verify?charset=${data.charset}&&out_trade_no=${data.out_trade_no}&&method=${data.method}&&total_amount=${data.total_amount}&&sign=${data.sign}&&trade_no=${data.trade_no}&&auth_app_id=${data.auth_app_id}&&version=${data.version}&&app_id=${data.app_id}&&sign_type=${data.sign_type}&&seller_id=${data.seller_id}&&timestamp=${data.timestamp}`,
+            method:'get',
+            dataType: "json",
+            contentType: 'application/json',
+        });
+        return req;
+    },
+    checkoutOrder(data){
+        const req = request({
+            url:url+'payment/check-order',
+            method:'post',
+            data:data,
+            dataType: "json",
+            contentType: 'application/json',
+        });
+        return req;
+    },
+    //business
+    businessList(userRole,page,amount){
+        const req = request({
+            url:url+`business/list?userRole=${userRole}&&page=${page}&&amount=${amount}`,
+            method:'get',
+            dataType: "json",
+        });
+        return req;
+    }
 }
